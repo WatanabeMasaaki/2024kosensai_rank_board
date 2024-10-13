@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スコアボード</title>
+  <style>
+    #leaderboard{
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>スコアボード</h1>
+
+  <div>
+    <form action="/leaderboard/personal" method="get">
+      <label for="id">ID検索:</label>
+      <input type="number" id="id" name="id" required>
+      <button type="submit">検索</button>
+    </form>
+  </div>
+
+  <table id="leaderboard" border="1">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>ID</th>
+        <th>カーリング</th>
+        <th>フェンシング</th>
+        <th>エアホッケー</th>
+        <th>スクロールアクション</th>
+        <th>total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach((row, index) => { %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= row.id %></td>
+          <td><%= row.curling %></td>
+          <td><%= row.fencing %></td>
+          <td><%= row.hockey %></td>
+          <td><%= row.scrollaction %></td>
+          <td><%= row.totalscore %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>

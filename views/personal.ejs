@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ランキングボード</title>
+</head>
+<body>
+  <h1>ランキングボード</h1>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>カーリング</th>
+            <th>フェンシング</th>
+            <th>エアホッケー</th>
+            <th>スクロールアクション</th>
+            <th>合計</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= data.id %></td>
+            <td><%= data.curling %></td>
+            <td><%= data.fencing %></td>
+            <td><%= data.hockey %></td>
+            <td><%= data.scrollaction %></td>
+            <td><%= data.totalscore %></td>
+          </tr>
+        </tbody>
+      </table>
+</body>
+</html>

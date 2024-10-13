@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <title>スコア入力フォーム</title>
+</head>
+<body>
+  <h1>スコア入力フォーム</h1>
+  <p>更新するID,アトラクション,点数を入力してください</p>
+  <form method="POST" action="/edit">
+    <div>
+      <label for="id">ID:</label><br>
+      <input type="number" id="id" name="id" required>
+      <p></p>
+    </div>
+    <div>
+      <label for="kind">アトラクション:</label><br>
+      <input type="radio" id="kind" name="kind" value="curling" required>カーリング　
+      <input type="radio" id="kind" name="kind" value="fencing">フェンシング　
+      <input type="radio" id="kind" name="kind" value="hockey">エアホッケー　
+      <input type="radio" id="kind" name="kind" value="scrollaction">スクロールアクション
+      <p></p>
+    </div>
+    <div>
+      <label for="score">点数:</label><br>
+      <input type="number" id="score" name="score" required>
+      <p></p>
+    </div>
+    <button type="submit">登録</button>
+    <button type="reset">リセット</button>
+  </form>
+</body>
+</html>
