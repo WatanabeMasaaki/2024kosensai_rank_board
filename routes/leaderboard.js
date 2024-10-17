@@ -40,7 +40,7 @@ router.get('/personal', (req, res) => {
               res.render('personal', { data: user });
             } else {
               // ユーザーが見つからない場合
-              res.status(404).send('User not found');
+              res.render('error');
             }
         });
 });
