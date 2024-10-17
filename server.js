@@ -99,6 +99,8 @@ app.post('/edit', auth, (req, res) => {
     .pipe(csv())
     .on('data', (data) => results.push(data))
     .on('end', () => {
+      let idExists = false;
+
       // 点数を更新
       const updatedData = results.map((row) => {
         if (row.id === id) {
@@ -107,6 +109,19 @@ app.post('/edit', auth, (req, res) => {
         }
         return row;
       });
+
+      // IDが存在しない場合、新しい行を追加
+      if (!idExists) {
+        const newRow = {
+          id: id,
+          curling: kind === 'curling' ? score : 0,
+          fencing: kind === 'fencing' ? score : 0,
+          hockey: kind === 'hockey' ? score : 0,
+          scrollaction: kind === 'scrollaction' ? score : 0,
+          totalscore: kind === 'curling' ? Number(score) : 0 + kind === 'fencing' ? Number(score) : 0 + kind === 'hockey' ? Number(score) : 0 + kind === 'scrollaction' ? Number(score) : 0
+        };
+        updatedData.push(newRow);
+      }
 
       // CSVファイルに書き戻す
       const ws = fs.createWriteStream('scores.csv');
