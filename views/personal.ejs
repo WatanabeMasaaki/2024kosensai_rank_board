@@ -3,31 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ランキングボード</title>
+  <title>個人スコア</title>
+  <style>
+    body{
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color:aliceblue;
+      text-align: center;
+    }
+    h1{
+      background: #c2edff;
+      padding: 0.5em;
+      border-top: solid 5px rgb(25, 29, 255);
+      border-bottom: solid 5px rgb(25, 29, 255);
+    }
+    table{
+      margin: auto;
+      border-collapse: separate;
+      border-spacing: 5px;
+    }
+    th,td{
+      padding: 5px 10px;
+    }
+    th{
+      text-align: left;
+      background-color:rgb(255, 230, 200);
+    }
+    td{
+      background-color:rgb(255, 246, 235);
+    }
+    .btn{
+      display: inline-block;
+      padding: 0.3em 1em;
+      text-decoration: none;
+      background: #ffffff;
+      color: #67c5ff;
+      border: solid 2px #67c5ff;
+      border-radius: 3px;
+      transition: .4s;
+    }
+    .btn:hover{
+      background: #67c5ff;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-  <h1>ランキングボード</h1>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>カーリング</th>
-            <th>フェンシング</th>
-            <th>エアホッケー</th>
-            <th>スクロールアクション</th>
-            <th>合計</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><%= data.id %></td>
-            <td><%= data.curling %></td>
-            <td><%= data.fencing %></td>
-            <td><%= data.hockey %></td>
-            <td><%= data.scrollaction %></td>
-            <td><%= data.totalscore %></td>
-          </tr>
-        </tbody>
-      </table>
+  <h1>個人スコア</h1>
+  <table>
+    <tbody>
+      <tr>
+        <th>ID</th>
+        <td><%= data.id %></td>
+      </tr>
+      <tr>
+        <th>カーリング</th>
+        <td><%= data.curling %></td>
+      </tr>
+      <tr>
+        <th>フェンシング</th>
+        <td><%= data.fencing %></td>
+      </tr>
+      <tr>
+        <th>エアホッケー</th>
+        <td><%= data.hockey %></td>
+      </tr>
+      <tr>
+        <th>スクロールアクション</th>
+        <td><%= data.scrollaction %></td>
+      </tr>
+      <tr>
+        <th>合計</th>
+        <td><%= data.totalscore %></td>
+      </tr>
+    </tbody>
+  </table>
+  <p></p>
+  <div>
+    <button class="btn" onclick="location.href='/leaderboard'">ランキングボードに戻る</button>
+  </div>
 </body>
 </html>
