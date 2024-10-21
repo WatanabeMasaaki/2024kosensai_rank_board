@@ -93,6 +93,8 @@ app.post('/edit', auth, (req, res) => {
   console.log(score);
 
   const results = [];
+
+
   
   //csvファイルを編集
   fs.createReadStream('scores.csv')
@@ -101,11 +103,18 @@ app.post('/edit', auth, (req, res) => {
     .on('end', () => {
       let idExists = false;
 
+      
+
       // 点数を更新
       const updatedData = results.map((row) => {
         if (row.id === id) {
+          idExists = true;
           row[kind] = score;
-          row.totalscore = Number(row.curling) + Number(row.fencing) + Number(row.hockey) + Number(row.scrollaction)
+          let score1 = row.curling == -1 ? 0 : Number(row.curling);
+          let score2 = row.fencing == -1 ? 0 : Number(row.fencing);
+          let score3 = row.hockey == -1 ? 0 : Number(row.hockey);
+          let score4 = row.scrollaction == -1 ? 0 : Number(row.scrollaction);
+          row.totalscore = score1 + score2 + score3 + score4;
         }
         return row;
       });
@@ -114,10 +123,10 @@ app.post('/edit', auth, (req, res) => {
       if (!idExists) {
         const newRow = {
           id: id,
-          curling: kind === 'curling' ? score : 0,
-          fencing: kind === 'fencing' ? score : 0,
-          hockey: kind === 'hockey' ? score : 0,
-          scrollaction: kind === 'scrollaction' ? score : 0,
+          curling: kind === 'curling' ? score : -1,
+          fencing: kind === 'fencing' ? score : -1,
+          hockey: kind === 'hockey' ? score : -1,
+          scrollaction: kind === 'scrollaction' ? score : -1,
           totalscore: kind === 'curling' ? Number(score) : 0 + kind === 'fencing' ? Number(score) : 0 + kind === 'hockey' ? Number(score) : 0 + kind === 'scrollaction' ? Number(score) : 0
         };
         updatedData.push(newRow);
