@@ -67,10 +67,10 @@
         <tr>
           <td><%= index + 1 %></td>
           <td><%= row.id %></td>
-          <td><%= row.curling %></td>
-          <td><%= row.fencing %></td>
-          <td><%= row.hockey %></td>
-          <td><%= row.scrollaction %></td>
+          <td><%= row.curling == -1 ? '-' : row.curling %></td>
+          <td><%= row.fencing == -1 ? '-' : row.fencing %></td>
+          <td><%= row.hockey == -1 ? '-' : row.hockey %></td>
+          <td><%= row.scrollaction == -1 ? '-' : row.scrollaction %></td>
           <td><%= row.totalscore %></td>
         </tr>
       <% }) %>
