@@ -64,7 +64,7 @@ router.post('/', auth, (req, res) => {
           fencing: kind === 'fencing' ? score : -1,
           hockey: kind === 'hockey' ? score : -1,
           scrollaction: kind === 'scrollaction' ? score : -1,
-          totalscore: kind === 'curling' ? Number(score) : 0 + kind === 'fencing' ? Number(score) : 0 + kind === 'hockey' ? Number(score) : 0 + kind === 'scrollaction' ? Number(score) : 0
+          totalscore: (kind === 'curling' ? Number(score) : 0) + (kind === 'fencing' ? Number(score) : 0) + (kind === 'hockey' ? Number(score) : 0) + (kind === 'scrollaction' ? Number(score) : 0)
         };
         updatedData.push(newRow);
       }
