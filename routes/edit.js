@@ -12,7 +12,7 @@ let ip;
 // -----------スコア編集画面------------------
 // CSVファイルを読み込んでWebページに表示
 router.get('/', auth, (req, res) => {
-  ip = req.socket.remoteAddress;
+  ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
   //ログ
   const lograw = [];
