@@ -6,8 +6,6 @@ const csv = require("csv-parser");
 const fastcsv = require('fast-csv');
 const bodyParser = require('body-parser');
 
-
-
 // -----------スコア編集画面------------------
 // CSVファイルを読み込んでWebページに表示
 router.get('/', auth, (req, res) => {
@@ -30,17 +28,35 @@ router.post('/', auth, (req, res) => {
   console.log(score);
 
   const results = [];
-
-
   
   //csvファイルを編集
   fs.createReadStream('data/scores.csv')
     .pipe(csv())
     .on('data', (data) => results.push(data))
     .on('end', () => {
-      let idExists = false;
-
       
+      if ((kind == 'delete') && (score == -1)){
+        const updatedData = results.filter(row => row.id !== id); // IDが一致しない行だけを残す
+        const ws = fs.createWriteStream('data/scores.csv');
+        fastcsv
+          .write(updatedData, { headers: true })
+          .pipe(ws)
+          .on('finish', () => {
+            console.log(`id ${id} deleted successfully!`);
+            res.redirect('/edit');
+          })
+          .on('error', (err) => {
+            console.error('Error writing CSV:', err);
+            res.status(500).send('Error writing CSV');
+          });
+        return;
+      }else if (kind == 'delete'){
+        console.log('data was not deleted');
+        res.redirect('/edit');
+        return;
+      }
+      
+      let idExists = false;
 
       // 点数を更新
       const updatedData = results.map((row) => {
