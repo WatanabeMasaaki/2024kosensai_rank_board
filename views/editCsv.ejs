@@ -6,6 +6,7 @@
 <body>
   <h1>スコア入力フォーム</h1>
   <p>更新するID,アトラクション,点数を入力してください</p>
+  <p>データを削除するときは、削除したいIDを入力、データ削除を選択、点数に-1を入力してください</p>
   <form method="POST" action="/edit">
     <div>
       <label for="id">ID:</label><br>
@@ -17,7 +18,8 @@
       <input type="radio" id="kind" name="kind" value="curling" required>カーリング　
       <input type="radio" id="kind" name="kind" value="fencing">フェンシング　
       <input type="radio" id="kind" name="kind" value="hockey">エアホッケー　
-      <input type="radio" id="kind" name="kind" value="scrollaction">スクロールアクション
+      <input type="radio" id="kind" name="kind" value="scrollaction">スクロールアクション　
+      <input type="radio" id="kind" name="kind" value="delete">データ削除
       <p></p>
     </div>
     <div>
