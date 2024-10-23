@@ -8,3 +8,4 @@ date,ipAddress,editID,operation,preCurling,preFencing,preHockey,preScrollaction,
 """2024/10/24 06:54:32""",::1,2005,update,121,123,-1,20,121,123,100,20,hockey
 """2024/10/24 06:59:13""",::1,5000,create,-1,-1,-1,-1,11,-1,-1,-1,curling
 """2024/10/24 07:00:04""",::ffff:172.17.101.178,1001,create,-1,-1,-1,-1,-1,100,-1,-1,fencing
+"""2024/10/24 07:59:03""",::1,1001,update,10,100,-1,-1,2,100,-1,-1,curling

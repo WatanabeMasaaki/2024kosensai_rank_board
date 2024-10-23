@@ -12,7 +12,7 @@ let ip;
 // -----------スコア編集画面------------------
 // CSVファイルを読み込んでWebページに表示
 router.get('/', auth, (req, res) => {
-  ip = req.headers['x-forwarded-for'];
+  ip = req.socket.remoteAddress;
 
   //ログ
   const lograw = [];
@@ -162,11 +162,15 @@ router.post('/', auth, (req, res) => {
           // 新しい値を入れる
           updatedColumn = kind;
           row[kind] = score;
-          curling = row.curling == -1 ? 0 : Number(row.curling);
-          fencing = row.fencing == -1 ? 0 : Number(row.fencing);
-          hockey = row.hockey == -1 ? 0 : Number(row.hockey);
-          scrollaction = row.scrollaction == -1 ? 0 : Number(row.scrollaction);
-          row.totalscore = curling + fencing + hockey + scrollaction;
+          curling = row.curling;
+          fencing = row.fencing;
+          hockey = row.hockey;
+          scrollaction = row.scrollaction;
+          score1 = row.curling == -1 ? 0 : Number(row.curling);
+          score2 = row.fencing == -1 ? 0 : Number(row.fencing);
+          score3 = row.hockey == -1 ? 0 : Number(row.hockey);
+          score4 = row.scrollaction == -1 ? 0 : Number(row.scrollaction);
+          row.totalscore = score1 + score2 + score3 + score4;
         }
         return row;
       });
