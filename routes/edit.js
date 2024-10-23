@@ -12,7 +12,7 @@ let ip;
 // -----------スコア編集画面------------------
 // CSVファイルを読み込んでWebページに表示
 router.get('/', auth, (req, res) => {
-  ip = req.ip;
+  ip = req.headers['x-forwarded-for'];
 
   //ログ
   const lograw = [];
