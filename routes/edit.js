@@ -34,8 +34,24 @@ router.post('/', auth, (req, res) => {
     .pipe(csv())
     .on('data', (data) => results.push(data))
     .on('end', () => {
-      
+      //  （ログに格納する）操作の種類を記録
+      let op = "update";
+      // （ログに格納する）編集前のデータ&編集後のデータを定義しておく
+      let preCurling, preFencing, preHockey, preScrollaction, curling, fencing, hockey, scrollaction;
+
+      // 削除する処理
       if ((kind == 'delete') && (score == -1)){
+        op = "delete";
+        // 削除前のデータを格納
+        results.map((row) => {
+          if (row.id === id) {
+            preCurling = row.curling;
+            preFencing = row.fencing;
+            preHockey = row.hockey;
+            preScrollaction = row.scrollaction;
+          }
+        });
+
         const updatedData = results.filter(row => row.id !== id); // IDが一致しない行だけを残す
         const ws = fs.createWriteStream('data/scores.csv');
         fastcsv
@@ -43,6 +59,8 @@ router.post('/', auth, (req, res) => {
           .pipe(ws)
           .on('finish', () => {
             console.log(`id ${id} deleted successfully!`);
+            // editLog.csvに新行追加
+            pushNewEditLog(id, "delete", preCurling, preFencing, preHockey, preScrollaction, -1, -1, -1, -1);
             res.redirect('/edit');
           })
           .on('error', (err) => {
@@ -62,24 +80,42 @@ router.post('/', auth, (req, res) => {
       const updatedData = results.map((row) => {
         if (row.id === id) {
           idExists = true;
+
+          // 編集前のデータを格納
+          preCurling = row.curling;
+          preFencing = row.fencing;
+          preHockey = row.hockey;
+          preScrollaction = row.scrollaction;
+          // 新しい値を入れる
           row[kind] = score;
-          let score1 = row.curling == -1 ? 0 : Number(row.curling);
-          let score2 = row.fencing == -1 ? 0 : Number(row.fencing);
-          let score3 = row.hockey == -1 ? 0 : Number(row.hockey);
-          let score4 = row.scrollaction == -1 ? 0 : Number(row.scrollaction);
-          row.totalscore = score1 + score2 + score3 + score4;
+          curling = row.curling == -1 ? 0 : Number(row.curling);
+          fencing = row.fencing == -1 ? 0 : Number(row.fencing);
+          hockey = row.hockey == -1 ? 0 : Number(row.hockey);
+          scrollaction = row.scrollaction == -1 ? 0 : Number(row.scrollaction);
+          row.totalscore = curling + fencing + hockey + scrollaction;
         }
         return row;
       });
 
       // IDが存在しない場合、新しい行を追加
       if (!idExists) {
+        op = "create";
+        // 編集前のデータを格納
+        preCurling = -1;
+        preFencing = -1;
+        preHockey = -1;
+        preScrollaction = -1;
+        // 編集後のデータを格納
+        curling = kind === 'curling' ? score : -1;
+        fencing = kind === 'fencing' ? score : -1;
+        hockey = kind === 'hockey' ? score : -1;
+        scrollaction = kind === 'scrollaction' ? score : -1;
         const newRow = {
           id: id,
-          curling: kind === 'curling' ? score : -1,
-          fencing: kind === 'fencing' ? score : -1,
-          hockey: kind === 'hockey' ? score : -1,
-          scrollaction: kind === 'scrollaction' ? score : -1,
+          curling: curling,
+          fencing: fencing,
+          hockey: hockey,
+          scrollaction: scrollaction,
           totalscore: (kind === 'curling' ? Number(score) : 0) + (kind === 'fencing' ? Number(score) : 0) + (kind === 'hockey' ? Number(score) : 0) + (kind === 'scrollaction' ? Number(score) : 0)
         };
         updatedData.push(newRow);
@@ -92,6 +128,8 @@ router.post('/', auth, (req, res) => {
         .pipe(ws)
         .on('finish', () => {
           console.log('Score updated successfully!');
+          // editLog.csvに新行追加
+          pushNewEditLog(id, op, preCurling, preFencing, preHockey, preScrollaction, curling, fencing, hockey, scrollaction);
           res.redirect('/edit');
         })
         .on('error', (err) => {
@@ -110,6 +148,53 @@ function auth(req, res, next){
   }else{
     res.redirect('/login');
   }
+}
+
+// （編集処理が成功したら）editLogに新しい行を追加
+function pushNewEditLog(id, op, preCurling, preFencing, preHockey, preScrollaction, curling, fencing, hockey, scrollaction) {
+  const date = new Date();
+  const options = { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+  const formatter = new Intl.DateTimeFormat('ja-JP', options);
+  const newDate = `"` + formatter.format(date) + `"`;
+  const logNewRow = {
+    date: newDate,
+    editID: id,
+    operation: op,
+    preCurling: preCurling,
+    preFencing: preFencing,
+    preHockey: preHockey,
+    preScrollaction: preScrollaction,
+    curling: curling,
+    fencing: fencing,
+    hockey: hockey,
+    scrollaction: scrollaction,
+  }
+
+  const logs = [];
+  fs.createReadStream('data/editLog.csv')
+    .pipe(csv())
+    .on('data', (data) => logs.push(data))
+    .on('end', () => {
+
+      const updatedLog = logs.map((row) => {
+        return row;
+      });
+      updatedLog.push(logNewRow);
+
+      // CSVファイルに書き戻す
+      const ws = fs.createWriteStream('data/editLog.csv');
+      fastcsv
+        .write(updatedLog, { headers: true })
+        .pipe(ws)
+        .on('finish', () => {
+          console.log('Log updated successfully!');
+        })
+        .on('error', (err) => {
+          console.error('Error writing log CSV:', err);
+          res.status(500).send('Error writing log CSV');
+        });
+
+    });
 }
 
 module.exports = router;
