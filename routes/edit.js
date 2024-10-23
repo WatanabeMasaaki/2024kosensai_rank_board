@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 router.get('/', auth, (req, res) => {
   const results = [];
   
-  fs.createReadStream('scores.csv')
+  fs.createReadStream('data/scores.csv')
     .pipe(csv())
     .on('data', (data) => results.push(data))
     .on('end', () => {
@@ -34,7 +34,7 @@ router.post('/', auth, (req, res) => {
 
   
   //csvファイルを編集
-  fs.createReadStream('scores.csv')
+  fs.createReadStream('data/scores.csv')
     .pipe(csv())
     .on('data', (data) => results.push(data))
     .on('end', () => {
@@ -70,7 +70,7 @@ router.post('/', auth, (req, res) => {
       }
 
       // CSVファイルに書き戻す
-      const ws = fs.createWriteStream('scores.csv');
+      const ws = fs.createWriteStream('data/scores.csv');
       fastcsv
         .write(updatedData, { headers: true })
         .pipe(ws)

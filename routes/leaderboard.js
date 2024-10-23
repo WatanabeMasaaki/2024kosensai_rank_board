@@ -7,7 +7,7 @@ const csv = require("csv-parser");
 router.get('/', (req, res) => {
     const results = [];
   
-    fs.createReadStream('scores.csv')  // ファイル名を統一
+    fs.createReadStream('data/scores.csv')  // ファイル名を統一
       .pipe(csv())
       .on('data', (data) => results.push(data))
       .on('end', () => {
@@ -28,7 +28,7 @@ router.get('/personal', (req, res) => {
 
     const results = [];
 
-    fs.createReadStream('scores.csv')
+    fs.createReadStream('data/scores.csv')
         .pipe(csv())
         .on('data', (data) => results.push(data))
         .on('end', () => {
