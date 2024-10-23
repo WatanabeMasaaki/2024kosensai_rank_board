@@ -6,17 +6,25 @@ const csv = require("csv-parser");
 const fastcsv = require('fast-csv');
 const bodyParser = require('body-parser');
 
+// ipアドレス
+let ip;
+
+
 // -----------スコア編集画面------------------
 // CSVファイルを読み込んでWebページに表示
 router.get('/', auth, (req, res) => {
+  ip = req.ip;
+
+  //ログ
+  const log = [];
   const results = [];
-  
+
   fs.createReadStream('data/scores.csv')
     .pipe(csv())
     .on('data', (data) => results.push(data))
     .on('end', () => {
       // CSVデータをフォームとして表示
-      res.render('editCsv', { data: results });
+      res.render('editCsv', { data: results , log: log});
     });
 });
 
@@ -156,8 +164,10 @@ function pushNewEditLog(id, op, preCurling, preFencing, preHockey, preScrollacti
   const options = { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
   const formatter = new Intl.DateTimeFormat('ja-JP', options);
   const newDate = `"` + formatter.format(date) + `"`;
+  
   const logNewRow = {
     date: newDate,
+    ipAddress: ip,
     editID: id,
     operation: op,
     preCurling: preCurling,
@@ -195,6 +205,8 @@ function pushNewEditLog(id, op, preCurling, preFencing, preHockey, preScrollacti
         });
 
     });
+
+    log.push("hello!");
 }
 
 module.exports = router;
