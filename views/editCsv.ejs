@@ -30,5 +30,12 @@
     <button type="submit">登録</button>
     <button type="reset">リセット</button>
   </form>
+  <p>編集ログ</p>
+  <div>
+    <% log.reverse().forEach((row) => { %>
+    <%= row %>
+    </br>
+    <% }) %>
+  </div>
 </body>
 </html>
