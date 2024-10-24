@@ -85,9 +85,18 @@
       </tr>
     </thead>
     <tbody>
+      <% let rank = 1; %>
+
       <% data.forEach((row, index) => { %>
+        <% if(index >= 1) { %>
+          <% if(data[index].totalscore == data[index-1].totalscore) { %>
+            <% //rank = rank; %>
+          <% } else { %>
+            <% rank = index + 1; %>
+          <% } %>
+        <% } %>
         <tr>
-          <td><%= index + 1 %></td>
+          <td><%= rank %></td>
           <td><%= row.id %></td>
           <td><%= row.curling == -1 ? '-' : row.curling %></td>
           <td><%= row.fencing == -1 ? '-' : row.fencing %></td>
