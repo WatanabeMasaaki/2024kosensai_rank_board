@@ -20,7 +20,7 @@ const editRouter = require("./routes/edit.js");
 //IDとパスワード
 const User = {
   name: "4e",
-  password: "Stk*2HuSbt"
+  password: "Stk*2HrutSbt"
 };
 
 //IDとパスワード照合
