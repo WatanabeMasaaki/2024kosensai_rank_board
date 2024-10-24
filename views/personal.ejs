@@ -60,22 +60,27 @@
       <tr>
         <th>カーリングシミュレーター</th>
         <td><%= data.curling == -1 ? '-' : data.curling %></td>
+        <td><%= rankCurling %>位</td>
       </tr>
       <tr>
         <th>SAMURAI</th>
         <td><%= data.fencing == -1 ? '-' : data.fencing %></td>
+        <td><%= rankFencing %>位</td>
       </tr>
       <tr>
         <th>ハンドエアホッケー</th>
         <td><%= data.hockey == -1 ? '-' : data.hockey %></td>
+        <td><%= rankHockey %>位</td>
       </tr>
       <tr>
         <th>体走</th>
         <td><%= data.scrollaction == -1 ? '-' : data.scrollaction %></td>
+        <td><%= rankScrollaction %>位</td>
       </tr>
       <tr>
         <th>合計</th>
         <td><%= data.totalscore %></td>
+        <td><%= rankTotal %>位</td>
       </tr>
     </tbody>
   </table>

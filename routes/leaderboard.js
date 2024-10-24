@@ -32,16 +32,31 @@ router.get('/personal', (req, res) => {
         .pipe(csv())
         .on('data', (data) => results.push(data))
         .on('end', () => {
-            // 該当ユーザーを検索
-            const user = results.find(row => row.id == required_id);
+          
+          // 該当ユーザーを検索
+          const user = results.find(row => row.id == required_id);
 
-            if (user) {
-              // personal.ejsに個人スコアのデータを渡す
-              res.render('personal', { data: user });
-            } else {
-              // ユーザーが見つからない場合
-              res.render('error');
-            }
+          if (user) {
+            //それぞれの競技のランキングを作成
+            const resultCurling = results.slice().sort((a, b) => b.curling - a.curling);
+            const resultFencing = results.slice().sort((a, b) => b.fencing - a.fencing);
+            const resultHockey = results.slice().sort((a, b) => b.hockey - a.hockey);
+            const resultScrollaction = results.slice().sort((a, b) => b.scrollaction - a.scrollaction);
+            const resultTotal = results.slice().sort((a, b) => b.totalscore - a.totalscore);
+
+            // それぞれの順位を格納
+            const rankCurling = resultCurling.findIndex(r => r.id === required_id) + 1;
+            const rankFencing = resultFencing.findIndex(r => r.id === required_id) + 1;
+            const rankHockey = resultHockey.findIndex(r => r.id === required_id) + 1;
+            const rankScrollaction = resultScrollaction.findIndex(r => r.id === required_id) + 1;
+            const rankTotal = resultTotal.findIndex(r => r.id === required_id) + 1;
+
+            // personal.ejsに個人スコアのデータを渡す
+            res.render('personal', { data: user, rankCurling: rankCurling, rankFencing: rankFencing, rankHockey: rankHockey, rankScrollaction: rankScrollaction, rankTotal: rankTotal});
+          } else {
+            // ユーザーが見つからない場合
+            res.render('error');
+          }
         });
 });
 
