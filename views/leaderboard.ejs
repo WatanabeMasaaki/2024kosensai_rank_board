@@ -4,9 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="60;url=leaderboard">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
   <title>ランキングボード</title>
   <style>
     body{
+      font-family:"Noto Sans JP", sans-serif;
       margin: 0;
       width: 100vw;
       height: 100vh;
@@ -23,6 +27,8 @@
       margin: auto;
       border: solid 2px;
       border-collapse: collapse;
+      max-width: 600px; /* テーブルの最大幅を指定 */
+      width: 100%; /* 最大幅になるまでは100%で表示 */
     }
     th,td{
       padding: 1px 10px;
@@ -37,30 +43,67 @@
     tr:nth-child(even) td{
       background-color:rgb(255, 230, 200);
     }
-    #kosen{
-      background-color: chartreuse;
-      border: 1px solid chartreuse;
-      border-radius: 35px;
+    .kosen{
+      background-color: #c2edff;
+      border: 1.5px solid rgb(25, 29, 255);
+      border-radius: 5px;
+      padding: 1px 5px 1px 5px;
       color: black;
       text-decoration: none;
       line-height: 5px;
+    }
+    .gold{
+      font-size: x-large;
+      font-weight: bold;
+      color:rgb(237, 201, 0);
+    }
+    /* 自動幅を指定する列（Rank, ID, 合計）は幅の指定をしない */
+    colgroup col.rank-col,
+    colgroup col.id-col,
+    colgroup col.total-col {
+        width: auto; /* 自動調整 */
+    }
+
+    /* 残り4列を均等に分ける */
+    colgroup col.equal-width {
+        width: 25%; /* 残りのカラムは残った幅の25%ずつ */
+    }
+    
+    /* スマホ対応：小さい画面の場合は横スクロールを有効にする */
+    @media (max-width: 768px) {
+      .table-container {
+          overflow-x: auto; /* 横スクロールを許可 */
+      }
+      table {
+          width: 600px; /* 小さな画面でも横スクロールができるようにする */
+      }
     }
   </style>
 </head>
 <body>
   <h1>ランキングボード</h1>
+  <p>ランキングボードへようこそ！</p>
+  <p>ここでは、参加者の皆様の記録や順位を閲覧することができます。</p>
+  <p>ID検索で、ご自身のIDを入力すると、自分の点数や順位を確認できます。</p>
+  <p class='gold'>目指せ金メダル！！</p>
   <div>
+    <p>以下各種リンクです</p>
     <p>
-      <a id="kosen" href="https://www.gifu-nct.ac.jp/">
+      岐阜高専のHPはコチラ→
+      <a class="kosen" href="https://www.gifu-nct.ac.jp/">
         岐阜高専
       </a>
-      　
-      <a id="kosen" href="https://www.gifu-nct.ac.jp/elec/ehome.html">
+    </p>
+    <p>
+      電気情報工学科のHPはコチラ→
+      <a class="kosen" href="https://www.gifu-nct.ac.jp/elec/ehome.html">
         電気情報工学科
       </a>
-      　
-      <a id="kosen" href="https://docs.google.com/forms/d/e/1FAIpQLSe4wxBwTdm_8ke-kDQUkcoeT--rCQTAfWFGlO5E3Mxu2Us4jA/closedform">
-        専門店アンケート
+    </p>
+    <p>
+     専門展のアンケートはコチラ↓<br>（投票お願いします！）→
+      <a class="kosen" href="https://docs.google.com/forms/d/e/1FAIpQLSe4wxBwTdm_8ke-kDQUkcoeT--rCQTAfWFGlO5E3Mxu2Us4jA/closedform">
+        専門展アンケート
       </a>
     </p>
   </div>
@@ -72,40 +115,51 @@
     </form>
   </div>
   <p></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Rank</th>
-        <th>ID</th>
-        <th>カーリングシミュレーター</th>
-        <th>SAMURAI</th>
-        <th>ハンドエアホッケー</th>
-        <th>体走</th>
-        <th>合計</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% let rank = 1; %>
-
-      <% data.forEach((row, index) => { %>
-        <% if(index >= 1) { %>
-          <% if(data[index].totalscore == data[index-1].totalscore) { %>
-            <% //rank = rank; %>
-          <% } else { %>
-            <% rank = index + 1; %>
-          <% } %>
-        <% } %>
+  <div class="table-container">
+    <table>
+      <colgroup>
+        <col class="rank-col">  <!-- Rank列 -->
+        <col class="id-col">    <!-- ID列 -->
+        <col class="equal-width"> <!-- カーリングシミュレーター列 -->
+        <col class="equal-width"> <!-- SAMURAI列 -->
+        <col class="equal-width"> <!-- ハンドエアホッケー列 -->
+        <col class="equal-width"> <!-- 体走列 -->
+        <col class="total-col">  <!-- 合計列 -->
+      </colgroup>
+      <thead>
         <tr>
-          <td><%= rank %></td>
-          <td><%= row.id %></td>
-          <td><%= row.curling == -1 ? '-' : row.curling %></td>
-          <td><%= row.fencing == -1 ? '-' : row.fencing %></td>
-          <td><%= row.hockey == -1 ? '-' : row.hockey %></td>
-          <td><%= row.scrollaction == -1 ? '-' : row.scrollaction %></td>
-          <td><%= row.totalscore %></td>
+          <th>順位</th>
+          <th>ID</th>
+          <th>カーリングシミュレーター</th>
+          <th>SAMURAI</th>
+          <th>ハンドエアホッケー</th>
+          <th>体走</th>
+          <th>合計</th>
         </tr>
-      <% }) %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% let rank = 1; %>
+  
+        <% data.forEach((row, index) => { %>
+          <% if(index >= 1) { %>
+            <% if(data[index].totalscore == data[index-1].totalscore) { %>
+              <% //rank = rank; %>
+            <% } else { %>
+              <% rank = index + 1; %>
+            <% } %>
+          <% } %>
+          <tr>
+            <td><%= rank %>位</td>
+            <td><%= row.id %></td>
+            <td><%= row.curling == -1 ? '-' : row.curling %></td>
+            <td><%= row.fencing == -1 ? '-' : row.fencing %></td>
+            <td><%= row.hockey == -1 ? '-' : row.hockey %></td>
+            <td><%= row.scrollaction == -1 ? '-' : row.scrollaction %></td>
+            <td><%= row.totalscore %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

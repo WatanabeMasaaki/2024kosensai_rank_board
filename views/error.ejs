@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>error</title>
-</head>
-<body>
-    <h1>ユーザーが見つかりませんでした</h1>
-    <button class="btn" onclick="location.href='/leaderboard'">ランキングボードに戻る</button>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ユーザーが見つかりませんでした</title>
+    </head>
+    <style>
+        body{
+            font-family:"Noto Sans JP", sans-serif;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color:aliceblue;
+            text-align: center;
+        }
+        h1{
+            background: #c2edff;
+            padding: 0.5em;
+            border-top: solid 5px rgb(25, 29, 255);
+            border-bottom: solid 5px rgb(25, 29, 255);
+        }
+        .btn{
+            display: inline-block;
+            padding: 0.3em 1em;
+            text-decoration: none;
+            background: #ffffff;
+            color: #67c5ff;
+            border: solid 2px #67c5ff;
+            border-radius: 3px;
+            transition: .4s;
+        }
+        .btn:hover{
+            background: #67c5ff;
+            color: white;
+        }
+    </style>
+    <body>
+        <h1>個人スコア</h1>
+        <p style="font-size: large; font-weight: bold;">ユーザーが見つかりませんでした</p>
+        <button class="btn" onclick="location.href='/leaderboard'">ランキングボードに戻る</button>
+    </body>
 </html>
