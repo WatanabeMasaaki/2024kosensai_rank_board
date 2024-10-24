@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
   <title>個人スコア</title>
   <style>
     body{
+      font-family:"Noto Sans JP", sans-serif;
       margin: 0;
       width: 100vw;
       height: 100vh;
@@ -51,12 +55,9 @@
 </head>
 <body>
   <h1>個人スコア</h1>
+  <p style="font-size: large; font-weight: bold;">ID: <%= data.id %> の個人成績</p>
   <table>
     <tbody>
-      <tr>
-        <th>ID</th>
-        <td><%= data.id %></td>
-      </tr>
       <tr>
         <th>カーリングシミュレーター</th>
         <td><%= data.curling == -1 ? '-' : data.curling %></td>

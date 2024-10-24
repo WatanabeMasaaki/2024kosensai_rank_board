@@ -3,6 +3,15 @@
 <head>
   <title>スコア入力フォーム</title>
 </head>
+<style>
+  body{
+    font-family:"Noto Sans JP", sans-serif;
+    margin: 20px;
+    width: 100vw;
+    height: 100vh;
+    background-color:aliceblue;
+  }
+</style>
 <body>
   <h1>スコア入力フォーム</h1>
   <p>更新するID,アトラクション,点数を入力してください</p>
@@ -16,9 +25,13 @@
     <div>
       <label for="kind">アトラクション:</label><br>
       <input type="radio" id="kind" name="kind" value="curling" required>カーリングシミュレーター　
+      <br>
       <input type="radio" id="kind" name="kind" value="fencing">SAMURAI　
+      <br>
       <input type="radio" id="kind" name="kind" value="hockey">ハンドエアホッケー　
+      <br>
       <input type="radio" id="kind" name="kind" value="scrollaction">体走　
+      <br>
       <input type="radio" id="kind" name="kind" value="delete">データ削除
       <p></p>
     </div>
@@ -27,6 +40,7 @@
       <input type="number" id="score" name="score" required>
       <p></p>
     </div>
+    <br>
     <button type="submit">登録</button>
     <button type="reset">リセット</button>
   </form>
