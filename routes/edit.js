@@ -31,19 +31,19 @@ router.get('/', auth, (req, res) => {
           if(l.operation == "update") {
             switch(l.updatedColumn) {
               case 'curling':
-                log_sentence = l.date + " ID:" + l.editID + " の " + "カーリング" + " のスコアを " + l.preCurling + " から " + l.curling + "に更新しました！";
+                log_sentence = l.date + " ID:" + l.editID + " の " + "カーリングシミュレーター" + " のスコアを " + l.preCurling + " から " + l.curling + " に更新しました！";
                 logs.push(log_sentence);
                 break;
               case 'fencing':
-                log_sentence = l.date + " ID:" + l.editID + " の " + "フェンシング" + " のスコアを " + l.preFencing + " から " + l.fencing + "に更新しました！";
+                log_sentence = l.date + " ID:" + l.editID + " の " + "SAMURAI" + " のスコアを " + l.preFencing + " から " + l.fencing + " に更新しました！";
                 logs.push(log_sentence);
                 break;
               case 'hockey':
-                log_sentence = l.date + " ID:" + l.editID + " の " + "エアホッケー" + " のスコアを " + l.preHockey + " から " + l.hockey + "に更新しました！";
+                log_sentence = l.date + " ID:" + l.editID + " の " + "ハンドエアホッケー" + " のスコアを " + l.preHockey + " から " + l.hockey + " に更新しました！";
                 logs.push(log_sentence);
                 break;
               case 'scrollaction':
-                log_sentence = l.date + " ID:" + l.editID + " の " + "スクロールアクション" + " のスコアを " + l.preScrollaction + " から " + l.scrollaction + "に更新しました！";
+                log_sentence = l.date + " ID:" + l.editID + " の " + "体走" + " のスコアを " + l.preScrollaction + " から " + l.scrollaction + " に更新しました！";
                 logs.push(log_sentence);
                 break;
               default:
@@ -54,19 +54,19 @@ router.get('/', auth, (req, res) => {
             
             switch(l.updatedColumn) {
               case 'curling':
-                log_sentence = l.date + " ID:" + l.editID + " の " + l.updatedColumn + " のスコアを " + l.preCurling + " から " + l.curling + "に更新しました！";
+                log_sentence = l.date + " ID:" + l.editID + " の " + "カーリングシミュレーター" + " のスコアを " + l.preCurling + " から " + l.curling + " に更新しました！";
                 logs.push(log_sentence);
                 break;
               case 'fencing':
-                log_sentence = l.date + " ID:" + l.editID + " の " + l.updatedColumn + " のスコアを " + l.preFencing + " から " + l.fencing + "に更新しました！";
+                log_sentence = l.date + " ID:" + l.editID + " の " + "SAMURAI" + " のスコアを " + l.preFencing + " から " + l.fencing + " に更新しました！";
                 logs.push(log_sentence);
                 break;
               case 'hockey':
-                log_sentence = l.date + " ID:" + l.editID + " の " + l.updatedColumn + " のスコアを " + l.preHockey + " から " + l.hockey + "に更新しました！";
+                log_sentence = l.date + " ID:" + l.editID + " の " + "ハンドエアホッケー" + " のスコアを " + l.preHockey + " から " + l.hockey + " に更新しました！";
                 logs.push(log_sentence);
                 break;
               case 'scrollaction':
-                log_sentence = l.date + " ID:" + l.editID + " の " + l.updatedColumn + " のスコアを " + l.preScrollaction + " から " + l.scrollaction + "に更新しました！";
+                log_sentence = l.date + " ID:" + l.editID + " の " + "体走" + " のスコアを " + l.preScrollaction + " から " + l.scrollaction + " に更新しました！";
                 logs.push(log_sentence);
                 break;
               default:
