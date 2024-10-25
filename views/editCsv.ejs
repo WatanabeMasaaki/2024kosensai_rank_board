@@ -46,9 +46,11 @@
   </form>
   <p>編集ログ</p>
   <div>
-    <% log.reverse().forEach((row) => { %>
-    <%= row %>
-    </br>
+    <% log.reverse().forEach((row, index) => { %>
+      <% if(index < 100) { %>
+        <%= row %>
+        </br>
+      <% }%>
     <% }) %>
   </div>
 </body>

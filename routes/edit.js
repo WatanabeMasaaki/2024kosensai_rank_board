@@ -12,7 +12,7 @@ let ip;
 // -----------スコア編集画面------------------
 // CSVファイルを読み込んでWebページに表示
 router.get('/', auth, (req, res) => {
-  ip = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : req.socket.remoteAddress;
+  // ip = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : req.socket.remoteAddress;
 
   //ログ
   const lograw = [];
@@ -29,60 +29,60 @@ router.get('/', auth, (req, res) => {
       .on('data', (data) => results.push(data))
       .on('end', () => {
         lograw.forEach((l) => {
-          if(l.ipAddress == ip) {
-            // ログに表示させるテキストを用意
-            let log_sentence;
-            if(l.operation == "update") {
-              switch(l.updatedColumn) {
-                case 'curling':
-                  log_sentence = l.date + " ID:" + l.editID + " の " + "カーリングシミュレーター" + " のスコアを " + l.preCurling + " から " + l.curling + " に更新しました！";
-                  logs.push(log_sentence);
-                  break;
-                case 'fencing':
-                  log_sentence = l.date + " ID:" + l.editID + " の " + "SAMURAI" + " のスコアを " + l.preFencing + " から " + l.fencing + " に更新しました！";
-                  logs.push(log_sentence);
-                  break;
-                case 'hockey':
-                  log_sentence = l.date + " ID:" + l.editID + " の " + "ハンドエアホッケー" + " のスコアを " + l.preHockey + " から " + l.hockey + " に更新しました！";
-                  logs.push(log_sentence);
-                  break;
-                case 'scrollaction':
-                  log_sentence = l.date + " ID:" + l.editID + " の " + "体走" + " のスコアを " + l.preScrollaction + " から " + l.scrollaction + " に更新しました！";
-                  logs.push(log_sentence);
-                  break;
-                default:
-                  console.log("edit.js: unknown updatedColumn");
-              }
-              
-            } else if(l.operation == "create") {
-              
-              switch(l.updatedColumn) {
-                case 'curling':
-                  log_sentence = l.date + " ID:" + l.editID + " の " + "カーリングシミュレーター" + " のスコアを " + l.preCurling + " から " + l.curling + " に更新しました！";
-                  logs.push(log_sentence);
-                  break;
-                case 'fencing':
-                  log_sentence = l.date + " ID:" + l.editID + " の " + "SAMURAI" + " のスコアを " + l.preFencing + " から " + l.fencing + " に更新しました！";
-                  logs.push(log_sentence);
-                  break;
-                case 'hockey':
-                  log_sentence = l.date + " ID:" + l.editID + " の " + "ハンドエアホッケー" + " のスコアを " + l.preHockey + " から " + l.hockey + " に更新しました！";
-                  logs.push(log_sentence);
-                  break;
-                case 'scrollaction':
-                  log_sentence = l.date + " ID:" + l.editID + " の " + "体走" + " のスコアを " + l.preScrollaction + " から " + l.scrollaction + " に更新しました！";
-                  logs.push(log_sentence);
-                  break;
-                default:
-                  console.log("edit.js: unknown updatedColumn");
-              }
-              logs.push(l.date + " ID: " + l.editID + " を新規作成！");
-  
-            } else if(l.operation = "delete") {
-              logs.push(l.date + " ID: " + l.editID + " のデータ..." + " カーリング:" + l.preCurling + " フェンシング:" + l.preFencing + " エアホッケー:" + l.preHockey + " スクロールアクション:" + l.scrollaction);
-              logs.push(l.date + " ID: " + l.editID + " のデータを削除");
-            } 
-          }
+        
+          // ログに表示させるテキストを用意
+          let log_sentence;
+          if(l.operation == "update") {
+            switch(l.updatedColumn) {
+              case 'curling':
+                log_sentence = l.date + " ID:" + l.editID + " の " + "カーリングシミュレーター" + " のスコアを " + l.preCurling + " から " + l.curling + " に更新しました！";
+                logs.push(log_sentence);
+                break;
+              case 'fencing':
+                log_sentence = l.date + " ID:" + l.editID + " の " + "SAMURAI" + " のスコアを " + l.preFencing + " から " + l.fencing + " に更新しました！";
+                logs.push(log_sentence);
+                break;
+              case 'hockey':
+                log_sentence = l.date + " ID:" + l.editID + " の " + "ハンドエアホッケー" + " のスコアを " + l.preHockey + " から " + l.hockey + " に更新しました！";
+                logs.push(log_sentence);
+                break;
+              case 'scrollaction':
+                log_sentence = l.date + " ID:" + l.editID + " の " + "体走" + " のスコアを " + l.preScrollaction + " から " + l.scrollaction + " に更新しました！";
+                logs.push(log_sentence);
+                break;
+              default:
+                console.log("edit.js: unknown updatedColumn");
+            }
+            
+          } else if(l.operation == "create") {
+            
+            switch(l.updatedColumn) {
+              case 'curling':
+                log_sentence = l.date + " ID:" + l.editID + " の " + "カーリングシミュレーター" + " のスコアを " + l.preCurling + " から " + l.curling + " に更新しました！";
+                logs.push(log_sentence);
+                break;
+              case 'fencing':
+                log_sentence = l.date + " ID:" + l.editID + " の " + "SAMURAI" + " のスコアを " + l.preFencing + " から " + l.fencing + " に更新しました！";
+                logs.push(log_sentence);
+                break;
+              case 'hockey':
+                log_sentence = l.date + " ID:" + l.editID + " の " + "ハンドエアホッケー" + " のスコアを " + l.preHockey + " から " + l.hockey + " に更新しました！";
+                logs.push(log_sentence);
+                break;
+              case 'scrollaction':
+                log_sentence = l.date + " ID:" + l.editID + " の " + "体走" + " のスコアを " + l.preScrollaction + " から " + l.scrollaction + " に更新しました！";
+                logs.push(log_sentence);
+                break;
+              default:
+                console.log("edit.js: unknown updatedColumn");
+            }
+            logs.push(l.date + " ID: " + l.editID + " を新規作成！");
+
+          } else if(l.operation = "delete") {
+            logs.push(l.date + " ID: " + l.editID + " のデータ..." + " カーリング:" + l.preCurling + " フェンシング:" + l.preFencing + " エアホッケー:" + l.preHockey + " スクロールアクション:" + l.scrollaction);
+            logs.push(l.date + " ID: " + l.editID + " のデータを削除");
+          } 
+          
         });
 
         // CSVデータをフォームとして表示
