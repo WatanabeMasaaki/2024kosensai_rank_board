@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="60;url=display">
+<title>ランキングボード</title>
+<style>
+    body{
+    font-family:"Noto Sans JP", sans-serif;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color:aliceblue;
+    text-align: center;
+    }
+    h1{
+    background: #c2edff;
+    padding: 0.5em;
+    border-top: solid 5px rgb(25, 29, 255);
+    border-bottom: solid 5px rgb(25, 29, 255);
+    }
+    table{
+    margin: auto;
+    border: solid 2px;
+    border-collapse: collapse;
+    width: 90%; /* 最大幅になるまでは100%で表示 */
+    }
+    th,td{
+    padding: 1px 10px;
+    border: solid 1px #c64f4f;
+    }
+    th{
+    background-color: #ffd069;
+    }
+    tr:nth-child(odd) td{
+    background-color:rgb(255, 246, 235);
+    }
+    tr:nth-child(even) td{
+    background-color:rgb(255, 230, 200);
+    }
+    .kosen{
+    background-color: #c2edff;
+    border: 1.5px solid rgb(25, 29, 255);
+    border-radius: 5px;
+    padding: 1px 5px 1px 5px;
+    color: black;
+    text-decoration: none;
+    line-height: 5px;
+    }
+    .gold{
+    font-size: x-large;
+    font-weight: bold;
+    color:rgb(237, 201, 0);
+    }
+    /* 自動幅を指定する列（Rank, ID, 合計）は幅の指定をしない */
+    colgroup col.rank-col,
+    colgroup col.id-col,
+    colgroup col.total-col {
+        width: auto; /* 自動調整 */
+    }
+
+    /* 残り4列を均等に分ける */
+    colgroup col.equal-width {
+        width: 25%; /* 残りのカラムは残った幅の25%ずつ */
+    }
+</style>
+</head>
+<body>
+<h1>ランキングボード</h1>
+<div class="table-container">
+    <table>
+        <colgroup>
+            <col class="rank-col">  <!-- Rank列 -->
+            <col class="id-col">    <!-- ID列 -->
+            <col class="equal-width"> <!-- カーリングシミュレーター列 -->
+            <col class="equal-width"> <!-- SAMURAI列 -->
+            <col class="equal-width"> <!-- ハンドエアホッケー列 -->
+            <col class="equal-width"> <!-- 体走列 -->
+            <col class="total-col">  <!-- 合計列 -->
+        </colgroup>
+        <thead>
+            <tr>
+            <th>rank</th>
+            <th>ID</th>
+            <th>カーリングシミュレーター</th>
+            <th>SAMURAI</th>
+            <th>ハンドエアホッケー</th>
+            <th>体走</th>
+            <th>合計</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% let rank = 1; %>
+
+            <% data.forEach((row, index) => { %>
+            <% if(index >= 1) { %>
+                <% if(data[index].totalscore == data[index-1].totalscore) { %>
+                <% //rank = rank; %>
+                <% } else { %>
+                <% rank = index + 1; %>
+                <% } %>
+            <% } %>
+            <tr>
+                <td><%= rank %>位</td>
+                <td><%= row.id %></td>
+                <td><%= row.curling == -1 ? '-' : row.curling %></td>
+                <td><%= row.fencing == -1 ? '-' : row.fencing %></td>
+                <td><%= row.hockey == -1 ? '-' : row.hockey %></td>
+                <td><%= row.scrollaction == -1 ? '-' : row.scrollaction %></td>
+                <td><%= row.totalscore %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
