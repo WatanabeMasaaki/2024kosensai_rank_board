@@ -88,4 +88,19 @@ function getRank(resultDictionary, result, id) {
 
 }
 
+router.get('/display', (req, res) => {
+  const results = [];
+
+  fs.createReadStream('data/scores.csv')  // ファイル名を統一
+    .pipe(csv())
+    .on('data', (data) => results.push(data))
+    .on('end', () => {
+      // 合計スコアで降順にソート
+      results.sort((a, b) => b.totalscore - a.totalscore);
+
+      // leaderboard.ejs に結果を渡す
+      res.render('display', { data: results });
+  });
+});
+
 module.exports = router;
