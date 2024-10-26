@@ -3,62 +3,105 @@ const router = express.Router();
 const fs = require('fs');
 const csv = require("csv-parser");
 
-// -----------ランキングボード-------------------
+// -----------ランキングボード（1、2日目を含めた）-------------------
 router.get('/', (req, res) => {
-    const results = [];
-  
+  const request = req.query.action;
+
+  const results = [];
+
+  if(request == 'day1') {
+    //1日目のデータを表示
+    fs.createReadStream('data/scores1.csv')  // ファイル名を統一
+      .pipe(csv())
+      .on('data', (data) => results.push(data))
+      .on('end', () => {
+        // 合計スコアで降順にソート
+        results.sort((a, b) => b.totalscore - a.totalscore);
+
+        // leaderboard.ejs に結果を渡す
+        res.render('leaderboard', { data: results, day : 1 });
+      });
+  } else if (request == 'day2') {
+    //2日目のデータを表示
+    fs.createReadStream('data/scores2.csv')  // ファイル名を統一
+      .pipe(csv())
+      .on('data', (data) => results.push(data))
+      .on('end', () => {
+        // 合計スコアで降順にソート
+        results.sort((a, b) => b.totalscore - a.totalscore);
+
+        // leaderboard.ejs に結果を渡す
+        res.render('leaderboard', { data: results, day : 2 });
+      });
+  } else {
     fs.createReadStream('data/scores.csv')  // ファイル名を統一
       .pipe(csv())
       .on('data', (data) => results.push(data))
       .on('end', () => {
         // 合計スコアで降順にソート
         results.sort((a, b) => b.totalscore - a.totalscore);
-  
+
         // leaderboard.ejs に結果を渡す
-        res.render('leaderboard', { data: results });
-    });
+        res.render('leaderboard', { data: results, day : 0 });
+      });
+  }
+
+  
 });
+
 
 // -----------個人スコア-------------------
 router.get('/personal', (req, res) => {
     const required_id = req.query.id;  // クエリパラメータとしてIDを取得
+    const day = req.query.day;
     if (!required_id) {
         return res.status(400).send('User ID is required');  // IDがない場合のエラーハンドリング
     }
 
     const results = [];
 
-    fs.createReadStream('data/scores.csv')
-        .pipe(csv())
-        .on('data', (data) => results.push(data))
-        .on('end', () => {
-          
-          // 該当ユーザーを検索
-          const user = results.find(row => row.id == required_id);
+    let readCsvFile;
 
-          if (user) {
-            //それぞれの競技で並び替えたもの
-            const resultCurling = results.slice().sort((a, b) => b.curling - a.curling);
-            const resultFencing = results.slice().sort((a, b) => b.fencing - a.fencing);
-            const resultHockey = results.slice().sort((a, b) => b.hockey - a.hockey);
-            const resultScrollaction = results.slice().sort((a, b) => b.scrollaction - a.scrollaction);
-            const resultTotal = results.slice().sort((a, b) => b.totalscore - a.totalscore);
+    if(day == 0) {
+      readCsvFile = 'data/scores.csv';
+    } else if(day == 1) {
+      readCsvFile = 'data/scores1.csv';
+    } else if(day == 2) {
+      readCsvFile = 'data/scores2.csv';
+    }
 
 
-            // それぞれの順位を格納
-            const rankCurling = getRank(resultCurling, resultCurling.map(r => r.curling), required_id);
-            const rankFencing = getRank(resultFencing, resultFencing.map(r => r.fencing), required_id);
-            const rankHockey = getRank(resultHockey, resultHockey.map(r => r.hockey), required_id);
-            const rankScrollaction = getRank(resultScrollaction, resultScrollaction.map(r => r.scrollaction), required_id);
-            const rankTotal = getRank(resultTotal, resultTotal.map(r => r.totalscore), required_id);
+    fs.createReadStream(readCsvFile)
+      .pipe(csv())
+      .on('data', (data) => results.push(data))
+      .on('end', () => {
+        
+        // 該当ユーザーを検索
+        const user = results.find(row => row.id == required_id);
 
-            // personal.ejsに個人スコアのデータを渡す
-            res.render('personal', { data: user, rankCurling: rankCurling, rankFencing: rankFencing, rankHockey: rankHockey, rankScrollaction: rankScrollaction, rankTotal: rankTotal});
-          } else {
-            // ユーザーが見つからない場合
-            res.render('error');
-          }
-        });
+        if (user) {
+          //それぞれの競技で並び替えたもの
+          const resultCurling = results.slice().sort((a, b) => b.curling - a.curling);
+          const resultFencing = results.slice().sort((a, b) => b.fencing - a.fencing);
+          const resultHockey = results.slice().sort((a, b) => b.hockey - a.hockey);
+          const resultScrollaction = results.slice().sort((a, b) => b.scrollaction - a.scrollaction);
+          const resultTotal = results.slice().sort((a, b) => b.totalscore - a.totalscore);
+
+
+          // それぞれの順位を格納
+          const rankCurling = getRank(resultCurling, resultCurling.map(r => r.curling), required_id);
+          const rankFencing = getRank(resultFencing, resultFencing.map(r => r.fencing), required_id);
+          const rankHockey = getRank(resultHockey, resultHockey.map(r => r.hockey), required_id);
+          const rankScrollaction = getRank(resultScrollaction, resultScrollaction.map(r => r.scrollaction), required_id);
+          const rankTotal = getRank(resultTotal, resultTotal.map(r => r.totalscore), required_id);
+
+          // personal.ejsに個人スコアのデータを渡す
+          res.render('personal', { data: user, rankCurling: rankCurling, rankFencing: rankFencing, rankHockey: rankHockey, rankScrollaction: rankScrollaction, rankTotal: rankTotal, day : day});
+        } else {
+          // ユーザーが見つからない場合
+          res.render('error', { day : day });
+        }
+      });
 });
 
 // ソートされた辞書配列と、ランキングにする対象となる配列（辞書配列からmapされたもの）, 順位を調べるID

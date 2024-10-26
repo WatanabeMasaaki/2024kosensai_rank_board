@@ -81,10 +81,16 @@
   </style>
 </head>
 <body>
+  <% if( day == 0 ) { %> <!-- 総合のランキングボードを表示 -->
   <h1>ランキングボード</h1>
   <p>ランキングボードへようこそ！</p>
   <p>ここでは、参加者の皆様の記録や順位を閲覧することができます。</p>
   <p>ID検索で、ご自身のIDを入力すると、自分の点数や順位を確認できます。</p>
+  <p>（10/26追記）1日目と2日目でランキングを分けたサイトを作成しました。以下の2つのリンクから遷移できます！</p>
+  <form action="/leaderboard" method="get">
+    <button type="submit" name="action" value="day1">1日目</button>
+    <button type="submit" name="action" value="day2">2日目</button>
+  </form>
   <p class='gold'>目指せ金メダル！！</p>
   <div>
     <p>以下各種リンクです</p>
@@ -111,9 +117,44 @@
     <form action="/leaderboard/personal" method="get">
       <label for="id">ID検索:</label>
       <input type="number" id="id" name="id" required>
+      <input type="hidden" name="day" value='0'>
       <button type="submit">検索</button>
     </form>
   </div>
+  <% } else if (day == 1) { %> <!-- 1日目のランキングボード -->
+  <h1>ランキングボード（1日目）</h1>
+  <p>1日目に参加した方のランキングです！</p>
+  <div>
+    <form action="/leaderboard/personal" method="get">
+      <label for="id">ID検索:</label>
+      <input type="number" id="id" name="id" required>
+      <input type="hidden" name="day" value='1'>
+      <button type="submit">検索</button>
+    </form>
+  </div>
+  <% } else if (day == 2) { %> <!-- 2日目のランキングボード -->
+  <h1>ランキングボード（2日目）</h1>
+  <p>2日目に参加した方のランキングボードです！</p>
+  <div>
+    <form action="/leaderboard/personal" method="get">
+      <label for="id">ID検索:</label>
+      <input type="number" id="id" name="id" required>
+      <input type="hidden" name="day" value='2'>
+      <button type="submit">検索</button>
+    </form>
+  </div>
+  <% } %>
+  
+  <!-- <a class="kosen" href="https://www.gifu-nct.ac.jp/">
+    1日目
+  </a>
+  <a class="kosen" href="https://www.gifu-nct.ac.jp/">
+    2日目
+  </a> -->
+
+
+  
+  
   <p></p>
   <div class="table-container">
     <table>

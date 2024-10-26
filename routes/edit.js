@@ -7,7 +7,7 @@ const fastcsv = require('fast-csv');
 const bodyParser = require('body-parser');
 
 // ipアドレス
-let ip;
+// let ip;
 
 // -----------スコア編集画面------------------
 // CSVファイルを読み込んでWebページに表示
