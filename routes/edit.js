@@ -24,7 +24,7 @@ router.get('/', auth, (req, res) => {
     .on('data', (data) => lograw.push(data))
     .on('end', () => {
 
-      fs.createReadStream('data/scores.csv')
+      fs.createReadStream('data/scores2.csv')
       .pipe(csv())
       .on('data', (data) => results.push(data))
       .on('end', () => {
@@ -103,7 +103,7 @@ router.post('/', auth, (req, res) => {
   const results = [];
   
   //csvファイルを編集
-  fs.createReadStream('data/scores.csv')
+  fs.createReadStream('data/scores2.csv')
     .pipe(csv())
     .on('data', (data) => results.push(data))
     .on('end', () => {
@@ -126,7 +126,7 @@ router.post('/', auth, (req, res) => {
         });
 
         const updatedData = results.filter(row => row.id !== id); // IDが一致しない行だけを残す
-        const ws = fs.createWriteStream('data/scores.csv');
+        const ws = fs.createWriteStream('data/scores2.csv');
         fastcsv
           .write(updatedData, { headers: true })
           .pipe(ws)
@@ -201,7 +201,7 @@ router.post('/', auth, (req, res) => {
       }
 
       // CSVファイルに書き戻す
-      const ws = fs.createWriteStream('data/scores.csv');
+      const ws = fs.createWriteStream('data/scores2.csv');
       fastcsv
         .write(updatedData, { headers: true })
         .pipe(ws)
