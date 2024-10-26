@@ -36,8 +36,14 @@
         }
     </style>
     <body>
-        <h1>個人スコア</h1>
-        <p style="font-size: large; font-weight: bold;">ユーザーが見つかりませんでした</p>
-        <button class="btn" onclick="location.href='/leaderboard'">ランキングボードに戻る</button>
+        <% if(day == 2) { %>
+            <h1>個人スコア（2日目）</h1>
+            <p style="font-size: large; font-weight: bold;">ユーザーが見つかりませんでした</p>
+            <button class="btn" onclick="location.href='/leaderboard?day=2'">ランキングボード（2日目）に戻る</button>
+        <% } else if (day == 1) { %>
+            <h1>個人スコア（1日目）</h1>
+            <p style="font-size: large; font-weight: bold;">ユーザーが見つかりませんでした</p>
+            <button class="btn" onclick="location.href='/leaderboard?day=1'">ランキングボード（1日目）に戻る</button>
+        <% } %>
     </body>
 </html>

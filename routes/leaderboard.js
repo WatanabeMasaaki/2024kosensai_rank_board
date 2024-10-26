@@ -6,8 +6,19 @@ const csv = require("csv-parser");
 // -----------ランキングボード-------------------
 router.get('/', (req, res) => {
     const results = [];
-  
-    fs.createReadStream('data/scores.csv')  // ファイル名を統一
+    let day;
+    let readFile;
+    if(req.query.day == 
+      1) {
+      day = 1;
+      readFile = 'data/scores.csv';
+    } else {
+      day = 2;
+      readFile = 'data/scores2.csv';
+    }
+
+
+    fs.createReadStream(readFile)  // ファイル名を統一
       .pipe(csv())
       .on('data', (data) => results.push(data))
       .on('end', () => {
@@ -15,20 +26,28 @@ router.get('/', (req, res) => {
         results.sort((a, b) => b.totalscore - a.totalscore);
   
         // leaderboard.ejs に結果を渡す
-        res.render('leaderboard', { data: results });
+        res.render('leaderboard', { data: results, day : day });
     });
 });
 
 // -----------個人スコア-------------------
 router.get('/personal', (req, res) => {
     const required_id = req.query.id;  // クエリパラメータとしてIDを取得
+    const day = req.query.day;
+
     if (!required_id) {
         return res.status(400).send('User ID is required');  // IDがない場合のエラーハンドリング
     }
 
     const results = [];
+    let readFile;
+    if(day == 1) {
+      readFile = 'data/scores.csv';
+    } else if (day == 2) {
+      readFile = 'data/scores2.csv';
+    }
 
-    fs.createReadStream('data/scores.csv')
+    fs.createReadStream(readFile)
         .pipe(csv())
         .on('data', (data) => results.push(data))
         .on('end', () => {
@@ -53,10 +72,10 @@ router.get('/personal', (req, res) => {
             const rankTotal = getRank(resultTotal, resultTotal.map(r => r.totalscore), required_id);
 
             // personal.ejsに個人スコアのデータを渡す
-            res.render('personal', { data: user, rankCurling: rankCurling, rankFencing: rankFencing, rankHockey: rankHockey, rankScrollaction: rankScrollaction, rankTotal: rankTotal});
+            res.render('personal', { data: user, rankCurling: rankCurling, rankFencing: rankFencing, rankHockey: rankHockey, rankScrollaction: rankScrollaction, rankTotal: rankTotal, day : day});
           } else {
             // ユーザーが見つからない場合
-            res.render('error');
+            res.render('error', {day : day});
           }
         });
 });

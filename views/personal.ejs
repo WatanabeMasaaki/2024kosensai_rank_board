@@ -6,7 +6,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-  <title>個人スコア</title>
+  <% if(day == 2) { %>
+  <title>個人スコア（2日目）</title>
+  <% } else if (day == 1) { %>
+  <title>個人スコア（1日目）</title>
+  <% } %>
   <style>
     body{
       font-family:"Noto Sans JP", sans-serif;
@@ -54,7 +58,11 @@
   </style>
 </head>
 <body>
-  <h1>個人スコア</h1>
+  <% if(day == 2) { %>
+    <h1>個人スコア（2日目）</h1>
+  <% } else if (day == 1) { %>
+    <h1>個人スコア（1日目）</h1>
+  <% } %>
   <p style="font-size: large; font-weight: bold;">ID: <%= data.id %> の個人成績</p>
   <table>
     <tbody>
@@ -87,7 +95,11 @@
   </table>
   <p></p>
   <div>
-    <button class="btn" onclick="location.href='/leaderboard'">ランキングボードに戻る</button>
+    <% if(day == 2) { %>
+      <button class="btn" onclick="location.href='/leaderboard?day=2'">ランキングボード（2日目）に戻る</button>
+    <% } else if (day == 1) { %>
+      <button class="btn" onclick="location.href='/leaderboard?day=1'">ランキングボード（1日目）に戻る</button>
+    <% } %>
   </div>
 </body>
 </html>
