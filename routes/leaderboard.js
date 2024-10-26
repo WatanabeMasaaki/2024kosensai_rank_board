@@ -110,7 +110,7 @@ function getRank(resultDictionary, result, id) {
 router.get('/display', (req, res) => {
   const results = [];
 
-  fs.createReadStream('data/scores.csv')  // ファイル名を統一
+  fs.createReadStream('data/scores2.csv')  // ファイル名を統一
     .pipe(csv())
     .on('data', (data) => results.push(data))
     .on('end', () => {
