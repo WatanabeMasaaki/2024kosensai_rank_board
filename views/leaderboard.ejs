@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-  <title>ランキングボード</title>
+  <title>ランキングボード（2日目）</title>
   <style>
     body{
       font-family:"Noto Sans JP", sans-serif;
@@ -81,7 +81,9 @@
   </style>
 </head>
 <body>
-  <h1>ランキングボード</h1>
+
+  <% if(day == 2) { %>
+  <h1>ランキングボード（2日目）</h1>
   <p>ランキングボードへようこそ！</p>
   <p>ここでは、参加者の皆様の記録や順位を閲覧することができます。</p>
   <p>ID検索で、ご自身のIDを入力すると、自分の点数や順位を確認できます。</p>
@@ -107,13 +109,38 @@
       </a>
     </p>
   </div>
+    <p>※コチラは、2日目のランキングボードになります。1日目の結果が見たい方はコチラのボタンから！→
+      <form action="/leaderboard" method="get">
+        <button type="submit" name="day" value="1">1日目</button>
+      </form>
+    </p>
   <div>
     <form action="/leaderboard/personal" method="get">
       <label for="id">ID検索:</label>
       <input type="number" id="id" name="id" required>
+      <input type="hidden" name="day" value="2">
       <button type="submit">検索</button>
     </form>
   </div>
+  <% } else if(day == 1) { %>
+  <h1>ランキングボード（1日目）</h1>
+  <p>1日目のランキングボードです！</p>
+  <p>ID検索で、ご自身のIDを入力すると、自分の点数や順位を確認できます。</p>
+  <p>※コチラは、1日目のランキングボードになります。2日目の結果が見たい方はコチラのボタンから！→
+    <form action="/leaderboard" method="get">
+      <button type="submit" name="day" value="2">2日目</button>
+    </form>
+  </p>
+  <div>
+    <form action="/leaderboard/personal" method="get">
+      <label for="id">ID検索:</label>
+      <input type="number" id="id" name="id" required>
+      <input type="hidden" name="day" value="1">
+      <button type="submit">検索</button>
+    </form>
+  </div>
+  <% } %>
+
   <p></p>
   <div class="table-container">
     <table>
