@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
+require('dotenv').config({ quiet: true });
 
 const app = express();
 const port = 3000;
@@ -18,10 +19,22 @@ const editRouter = require("./routes/edit.js");
 
 
 //IDとパスワード
-const User = {
-  name: "4e",
-  password: "Stk*2HrutSbt"
+const requiredEnv = (name) => {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(`${name} is required. Please set it in your .env file.`);
+  }
+
+  return value;
 };
+
+const User = {
+  name: requiredEnv('USER_NAME'),
+  password: requiredEnv('USER_PASSWORD')
+};
+const sessionSecret = requiredEnv('SESSION_SECRET');
+
 
 //IDとパスワード照合
 passport.use(new LocalStrategy((username, password, done) => {
@@ -30,7 +43,7 @@ passport.use(new LocalStrategy((username, password, done) => {
   }else if(password !== User.password){
     return done(null, false);
   }else{
-    return done(null, {username: username, password: password});
+    return done(null, { username: username });
   }
 }));
 //ログイン状態を維持
@@ -41,7 +54,7 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 app.use(session({
-  secret: 'cat',
+  secret: sessionSecret,
   resave: true,
   saveUninitialized: false,
 }));
