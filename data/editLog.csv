@@ -19,3 +19,4 @@ date,ipAddress,editID,operation,preCurling,preFencing,preHockey,preScrollaction,
 """2024/10/25 14:30:51""",::1,1111,create,-1,-1,-1,-1,111,-1,-1,-1,curling
 """2024/10/27 02:23:18""",,2222,create,-1,-1,-1,-1,-1,-1,-1,123,scrollaction
 """2024/10/27 02:23:27""",,1001,create,-1,-1,-1,-1,100,-1,-1,-1,curling
+"""2026/06/16 23:57:45""",,9999,create,-1,-1,-1,-1,-1,999,-1,-1,fencing
